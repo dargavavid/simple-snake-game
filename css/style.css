@@ -12,3 +12,7 @@ html, body {
 body {
     background-color: black;
 }
+
+#canvas {
+    background-color: midnightblue;
+}
