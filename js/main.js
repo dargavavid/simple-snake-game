@@ -99,8 +99,30 @@ function mainLoop(time = 0) {
     }
 }
 
+function handleControls(e) {
+    const kc = e.keyCode;
+    if (kc === 37) {//l-arrow
+        app.snake.changeDirection(-1, 0);
+    }else if (kc === 39) {//r-arrow
+        app.snake.changeDirection(1, 0);
+    }else if (kc === 38) {//u-arrow
+        app.snake.changeDirection(0, -1);
+    }else if (kc === 40) {//d-arrow
+        app.snake.changeDirection(0, 1);
+    }
+}
+
+function setEventListeners() {
+    document.addEventListener("keydown" ,handleControls, false);
+}
+
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
 // app.grid = mapSnakeToGrid(app.snake, app.grid);
 // renderGrid(app);
 
+setEventListeners();
 mainLoop();
+
+document.addEventListener("keydown", function(e) {
+    console.log(e.keyCode);
+}, false);
