@@ -4,6 +4,7 @@ class Snake {
         this.body = [{x: x1, y: y1}];
         this.dx = dx;
         this.dy = dy;
+        this.isNewSection = false;
     }
 
     //Move head, everything else takes the position of the previous section.
@@ -17,7 +18,11 @@ class Snake {
         //     return section;
         // });
         this.body.unshift({x: nx, y: ny});//Add new head
-        this.body.pop();//Remove last segment
+        if (!this.isNewSection) {
+            this.body.pop();//Remove last segment
+        }else {
+            this.isNewSection = false;
+        }
     }
 
     changeDirection(dx, dy) {
@@ -26,6 +31,10 @@ class Snake {
         // if (dx !== 0) {
         //     this.body.reverse();
         // }
+    }
+
+    addNewSection() {
+        this.isNewSection = true;
     }
 
 
