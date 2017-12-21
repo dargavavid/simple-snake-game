@@ -14,3 +14,10 @@ T.test("Should create a snake object with specified parameters.", function() {
     T.assertEquals(snake.dx, 5);
     T.assertEquals(snake.dy, 7);
 });
+
+T.test("Should update snake position", function() {
+    const snake = new Snake(0, 0, 0, 1);
+    const updated = [{x: 0, y: 1}];
+    snake.move();
+    T.assertSimilar(snake.body, updated);
+});

@@ -5,6 +5,15 @@ class Snake {
         this.dx = dx;
         this.dy = dy;
     }
+
+    move() {
+        const moved = this.body.map(section => {
+            section.x += this.dx;
+            section.y += this.dy;
+            return section;
+        });
+        this.body = moved;
+    }
 }
 
 //Create 2D grid with n rows and m columns:
