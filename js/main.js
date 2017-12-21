@@ -23,6 +23,9 @@ class Snake {
     changeDirection(dx, dy) {
         this.dx = dx;
         this.dy = dy;
+        // if (dx !== 0) {
+        //     this.body.reverse();
+        // }
     }
 
 
@@ -76,8 +79,8 @@ const app = {
     grid: makeGrid(10, 10),
     settings: {
         fps: 1000 / 3,
-        snakeColor: "deeppink",
-        borderColor: "white"
+        snakeColor: "pink",
+        borderColor: "ghostwhite"
     },
     state: {
         lastFrame: 0,
