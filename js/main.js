@@ -5,20 +5,27 @@ class Snake {
         this.dx = dx;
         this.dy = dy;
     }
+
     //Move head, everything else takes the position of the previous section.
     move() {
-        const moved = this.body.map(section => {
-            section.x += this.dx;
-            section.y += this.dy;
-            return section;
-        });
-        this.body = moved;
+        //Update head position:
+        const nx = this.body[0].x + this.dx;
+        const ny = this.body[0].y + this.dy;
+        // const moved = this.body.map(section => {
+        //     section.x += this.dx;
+        //     section.y += this.dy;
+        //     return section;
+        // });
+        this.body.unshift({x: nx, y: ny});//Add new head
+        this.body.pop();//Remove last segment
     }
 
     changeDirection(dx, dy) {
         this.dx = dx;
         this.dy = dy;
     }
+
+
 }
 
 //Create 2D grid with n rows and m columns:
@@ -58,15 +65,26 @@ function renderGrid(app) {
     }
 }
 
+function clearCanvas(canvas, context) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
     snake: new Snake(0, 0, 0, 1),
     grid: makeGrid(10, 10),
     settings: {
-        snakeColor: "red",
+        fps: 1000 / 5,
+        snakeColor: "deeppink",
         borderColor: "white"
+    },
+    state: {
+        lastFrame: 0,
+        frameCounter: 0
     }
 };
 
+app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
+app.grid = mapSnakeToGrid(app.snake, app.grid);
 renderGrid(app);
