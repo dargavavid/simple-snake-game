@@ -5,7 +5,7 @@ class Snake {
         this.dx = dx;
         this.dy = dy;
     }
-
+    //Move head, everything else takes the position of the previous section.
     move() {
         const moved = this.body.map(section => {
             section.x += this.dx;
@@ -34,10 +34,39 @@ function mapSnakeToGrid(snake, grid) {
     }));
 }
 
+function renderGrid(app) {
+    const grid = app.grid;
+    const context = app.canvasCtx;
+    const blockWidth = app.canvas.width / grid[0].length, blockHeight = app.canvas.height / grid.length;
+    let currentX = 0, currentY = 0;
+    context.lineWidth = 3;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] === 1) {
+                context.fillStyle = app.settings.snakeColor;
+                context.fillRect(currentX, currentY, blockWidth, blockHeight);
+                context.strokeStyle = app.settings.borderColor;
+                context.strokeRect(currentX, currentY, blockWidth, blockHeight);
+            }else {
+                context.strokeStyle = app.settings.borderColor;
+                context.strokeRect(currentX, currentY, blockWidth, blockHeight);
+            }
+            currentX += blockWidth;
+        }
+        currentX = 0;
+        currentY += blockHeight;
+    }
+}
+
 const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
     snake: new Snake(0, 0, 0, 1),
-    grid: makeGrid(10, 10)
+    grid: makeGrid(10, 10),
+    settings: {
+        snakeColor: "red",
+        borderColor: "white"
+    }
 };
 
+renderGrid(app);
