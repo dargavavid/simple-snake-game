@@ -28,6 +28,7 @@ class Tester {
         result.msg = statement ? "" : msg;
         result.trace = statement ? "" : new Error;
         this.currentResults.push(result);
+        return result.passed;
     }
     assertEquals(actual, expected, msg = "") {
         const result = {};
@@ -35,6 +36,7 @@ class Tester {
         result.msg = `Expected: ${expected}, instead got: ${actual}! ${msg}`;
         result.trace = actual === expected ? "" : new Error;
         this.currentResults.push(result);
+        return result.passed;
     }
     assertNotEquals(actual, expected, msg = "") {
         const result = {};
@@ -42,6 +44,7 @@ class Tester {
         result.msg = msg;
         result.trace = actual !== expected ? "" : new Error;
         this.currentResults.push(result);
+        return result.passed;
     }
     assertSimilar(actual, expected, msg = "") {
         this.assertEquals(this.stringify(actual), this.stringify(expected), msg);
