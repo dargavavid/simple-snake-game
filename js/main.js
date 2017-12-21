@@ -37,7 +37,7 @@ function makeGrid(n, m) {
 function mapSnakeToGrid(snake, grid) {
     return grid.map((row, y) => row.map((column, x) => {
         const match = snake.body.filter(section => section.x === x && section.y === y);
-        return match.length > 0 ? 1 : grid[y][x];
+        return match.length > 0 ? 1 : grid[y][x] === 2 ? 2 : 0;
     }));
 }
 
@@ -72,10 +72,10 @@ function clearCanvas(canvas, context) {
 const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
-    snake: new Snake(0, 0, 0, 1),
+    snake: new Snake(0, 0, 1, 0),
     grid: makeGrid(10, 10),
     settings: {
-        fps: 1000 / 5,
+        fps: 1000 / 3,
         snakeColor: "deeppink",
         borderColor: "white"
     },
@@ -85,6 +85,22 @@ const app = {
     }
 };
 
+function mainLoop(time = 0) {
+    window.requestAnimationFrame(mainLoop);
+    const deltaTime = time - app.state.lastFrame;
+    app.state.frameCounter += deltaTime;
+    app.state.lastFrame = time;
+    if (app.state.frameCounter > app.settings.fps) {
+        app.snake.move();
+        app.grid = mapSnakeToGrid(app.snake, app.grid);
+        clearCanvas(app.canvas, app.canvasCtx);
+        renderGrid(app);
+        app.state.frameCounter = 0;
+    }
+}
+
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
-app.grid = mapSnakeToGrid(app.snake, app.grid);
-renderGrid(app);
+// app.grid = mapSnakeToGrid(app.snake, app.grid);
+// renderGrid(app);
+
+mainLoop();
