@@ -14,6 +14,11 @@ class Snake {
         });
         this.body = moved;
     }
+
+    changeDirection(dx, dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
 }
 
 //Create 2D grid with n rows and m columns:

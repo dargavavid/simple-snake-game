@@ -15,9 +15,18 @@ T.test("Should create a snake object with specified parameters.", function() {
     T.assertEquals(snake.dy, 7);
 });
 
-T.test("Should update snake position", function() {
+T.test("Should update snake position and change direction", function() {
     const snake = new Snake(0, 0, 0, 1);
+    const snake2 = new Snake(0, 0, 1, 0);
     const updated = [{x: 0, y: 1}];
+    const updated2 = [{x: 1, y: 0}];
     snake.move();
+    snake2.move();
     T.assertSimilar(snake.body, updated);
+    T.assertSimilar(snake2.body, updated2);
+    
+    snake.changeDirection(0, -1);
+    snake.move();
+    T.assertEquals(snake.dy, -1);
+    T.assertSimilar(snake.body, [{x: 0, y: 0}]);
 });
