@@ -26,9 +26,18 @@ function makeGrid(n, m) {
     return new Array(n).fill(0).map(row => new Array(m).fill(0));
 }
 
+//Map snake unto grid:
+function mapSnakeToGrid(snake, grid) {
+    return grid.map((row, y) => row.map((column, x) => {
+        const match = snake.body.filter(section => section.x === x && section.y === y);
+        return match.length > 0 ? 1 : grid[y][x];
+    }));
+}
+
 const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
     snake: new Snake(0, 0, 0, 1),
+    grid: makeGrid(10, 10)
 };
 

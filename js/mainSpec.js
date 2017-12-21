@@ -30,3 +30,13 @@ T.test("Should update snake position and change direction", function() {
     T.assertEquals(snake.dy, -1);
     T.assertSimilar(snake.body, [{x: 0, y: 0}]);
 });
+
+T.test("Should map snake to grid", function() {
+    const snake = new Snake(0, 0, 0, 0);
+    const grid = [[0, 0], [0, 0]];
+    T.assertSimilar(mapSnakeToGrid(snake, grid), [[1, 0], [0, 0]]);    
+    snake.body.push({x: 1, y: 1});
+    T.assertSimilar(mapSnakeToGrid(snake, grid), [[1, 0], [0, 1]]);
+    snake.body.push({ x: 0, y: 1 });
+    T.assertSimilar(mapSnakeToGrid(snake, grid), [[1, 0], [1, 1]]);
+});
