@@ -36,8 +36,24 @@ class Snake {
     addNewSection() {
         this.isNewSection = true;
     }
+}
 
+class Token {
+    constructor(x, y, type = 2) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+    }
 
+    respawn(grid) {
+        const freePositions = grid.map((row, y) => row.map((column, x) => {
+            return grid[y][x] > 0 ? 0 : {x: x, y: y};
+        })).reduce((union, arr) => union.concat(arr), []).filter(position => position !== 0);
+        const roll = Math.floor(Math.random() * freePositions.length);
+        const newPosition = freePositions[roll];
+        this.x = newPosition.x;
+        this.y = newPosition.y;
+    }
 }
 
 //Create 2D grid with n rows and m columns:
@@ -53,6 +69,20 @@ function mapSnakeToGrid(snake, grid) {
     }));
 }
 
+function checkTokenSnakeCollision(token, snake) {
+    return snake.body.filter(section => section.x === token.x && section.y === token.y).length > 0;
+}
+
+function handleTokenSnakeCollision(tokens, snake, grid) {
+    for (const token of tokens) {
+        if (checkTokenSnakeCollision(token, snake)) {
+            snake.addNewSection();
+            token.respawn(grid);
+            mapTokensToGrid();
+        }
+    }
+}
+
 function renderGrid(app) {
     const grid = app.grid;
     const context = app.canvasCtx;
@@ -66,6 +96,9 @@ function renderGrid(app) {
                 context.fillRect(currentX, currentY, blockWidth, blockHeight);
                 context.strokeStyle = app.settings.borderColor;
                 context.strokeRect(currentX, currentY, blockWidth, blockHeight);
+            }else if (grid[i][j] === 2) {
+                context.fillStyle = app.settings.tokenColor;
+                context.fillRect(currentX, currentY, blockWidth, blockHeight);
             }else {
                 context.strokeStyle = app.settings.borderColor;
                 context.strokeRect(currentX, currentY, blockWidth, blockHeight);
@@ -85,11 +118,13 @@ const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
     snake: new Snake(0, 0, 1, 0),
+    tokens: [new Token(4, 0)],
     grid: makeGrid(10, 10),
     settings: {
         fps: 1000 / 3,
         snakeColor: "pink",
-        borderColor: "ghostwhite"
+        borderColor: "ghostwhite",
+        tokenColor: "red"
     },
     state: {
         lastFrame: 0,
@@ -104,6 +139,7 @@ function mainLoop(time = 0) {
     app.state.lastFrame = time;
     if (app.state.frameCounter > app.settings.fps) {
         app.snake.move();
+        handleTokenSnakeCollision(app.tokens, app.snake, app.grid);
         app.grid = mapSnakeToGrid(app.snake, app.grid);
         clearCanvas(app.canvas, app.canvasCtx);
         renderGrid(app);
@@ -128,13 +164,18 @@ function setEventListeners() {
     document.addEventListener("keydown" ,handleControls, false);
 }
 
+function mapTokensToGrid() {
+    app.grid = app.grid.map((row, y) => row.map((column, x) => {
+        const match = app.tokens.filter(token => token.x === x && token.y === y);
+        return match.length > 0 ? 2 : app.grid[y][x];
+    }));
+}
+
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
+// app.grid[0][4] = 2;
 // app.grid = mapSnakeToGrid(app.snake, app.grid);
 // renderGrid(app);
 
+mapTokensToGrid(app.tokens, app.grid);
 setEventListeners();
 mainLoop();
-
-document.addEventListener("keydown", function(e) {
-    console.log(e.keyCode);
-}, false);
