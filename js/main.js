@@ -12,11 +12,6 @@ class Snake {
         //Update head position:
         const nx = this.body[0].x + this.dx;
         const ny = this.body[0].y + this.dy;
-        // const moved = this.body.map(section => {
-        //     section.x += this.dx;
-        //     section.y += this.dy;
-        //     return section;
-        // });
         this.body.unshift({x: nx, y: ny});//Add new head
         if (!this.isNewSection) {
             this.body.pop();//Remove last segment
@@ -28,9 +23,6 @@ class Snake {
     changeDirection(dx, dy) {
         this.dx = dx;
         this.dy = dy;
-        // if (dx !== 0) {
-        //     this.body.reverse();
-        // }
     }
 
     addNewSection() {
@@ -174,9 +166,6 @@ function mapTokensToGrid() {
 }
 
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
-// app.grid[0][4] = 2;
-// app.grid = mapSnakeToGrid(app.snake, app.grid);
-// renderGrid(app);
 
 mapTokensToGrid(app.tokens, app.grid);
 setEventListeners();
