@@ -99,6 +99,8 @@ function renderGrid(app) {
             }else if (grid[i][j] === 2) {
                 context.fillStyle = app.settings.tokenColor;
                 context.fillRect(currentX, currentY, blockWidth, blockHeight);
+                context.strokeStyle = app.settings.borderColor;
+                context.strokeRect(currentX, currentY, blockWidth, blockHeight);
             }else {
                 context.strokeStyle = app.settings.borderColor;
                 context.strokeRect(currentX, currentY, blockWidth, blockHeight);
