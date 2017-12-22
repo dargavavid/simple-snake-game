@@ -121,7 +121,7 @@ const app = {
     tokens: [new Token(4, 0)],
     grid: makeGrid(10, 10),
     settings: {
-        fps: 1000 / 3,
+        fps: 1000 / 4,
         snakeColor: "pink",
         borderColor: "ghostwhite",
         tokenColor: "red"
