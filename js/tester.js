@@ -26,7 +26,7 @@ class Tester {
         const result = {};
         result.passed = statement ? true : false;
         result.msg = statement ? "" : msg;
-        result.trace = statement ? "" : new Error;
+        result.trace = statement ? "" : new Error();
         this.currentResults.push(result);
         return result.passed;
     }
@@ -34,7 +34,7 @@ class Tester {
         const result = {};
         result.passed = actual === expected ? true : false;
         result.msg = `Expected: ${expected}, instead got: ${actual}! ${msg}`;
-        result.trace = actual === expected ? "" : new Error;
+        result.trace = actual === expected ? "" : new Error();
         this.currentResults.push(result);
         return result.passed;
     }
@@ -42,7 +42,7 @@ class Tester {
         const result = {};
         result.passed = actual !== expected ? true : false;
         result.msg = msg;
-        result.trace = actual !== expected ? "" : new Error;
+        result.trace = actual !== expected ? "" : new Error();
         this.currentResults.push(result);
         return result.passed;
     }
