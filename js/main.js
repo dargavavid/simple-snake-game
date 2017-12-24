@@ -9,18 +9,30 @@ class Snake {
 
     //Move head, everything else takes the position of the previous section.
     move() {
-        //Update head position:
-        const nx = this.body[0].x + this.dx;
-        const ny = this.body[0].y + this.dy;
-        this.body.unshift({x: nx, y: ny});//Add new head
-        if (!this.isNewSection) {
-            this.body.pop();//Remove last segment
-        }else {
-            this.isNewSection = false;
+        //Check section overlap
+        const areOverlapping = this.body.map(sectionA => {
+            // console.log(this.body);
+            return this.body.filter(sectionB => sectionA.x === sectionB.x && sectionA.y === sectionB.y).length !== 1;
+        }).reduce((boolAccum, isOverlapping) => boolAccum += isOverlapping, 0);
+        if (areOverlapping === 0) {
+            //Update head position:
+            const nx = this.body[0].x + this.dx;
+            const ny = this.body[0].y + this.dy;
+            this.body.unshift({x: nx, y: ny});//Add new head
+            if (!this.isNewSection) {
+                this.body.pop();//Remove last segment
+            }else {
+                this.isNewSection = false;
+            }
         }
+        return areOverlapping;
     }
 
     changeDirection(dx, dy) {
+        //If only one directon changes, reverse sections
+        if (dx !== this.dx ^ dy !== this.dy) {
+            this.body.reverse();
+        }
         this.dx = dx;
         this.dy = dy;
     }
