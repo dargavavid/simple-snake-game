@@ -29,7 +29,7 @@ class Snake {
     }
 
     changeDirection(dx, dy) {
-        //If only one directon changes, reverse sections
+        //If only one directon changes, reverse order of sections
         if (dx !== this.dx ^ dy !== this.dy) {
             this.body.reverse();
         }

@@ -13,10 +13,30 @@ body {
     background-color: black;
 }
 
-#canvas {
+.centered {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.hidden {
+    display: none;
+}
+
+#canvas {
     background-color: forestgreen;
+}
+
+.endgame-panel {
+    width: 300px;
+    height: 100px;
+    background-color: indigo;
+    text-align: center;
+    /* line-height: 300px; */
+}
+
+.endgame-msg {
+    margin: 20px;
+    color: white;
 }
