@@ -123,6 +123,9 @@ function clearCanvas(canvas, context) {
 const app = {
     canvas: document.querySelector("#canvas"),
     canvasCtx: this.canvas.getContext("2d"),
+    endgameDiv: document.querySelector(".endgame-panel"),
+    endgameMsg: document.querySelector(".endgame-msg"),
+    restartButton: document.querySelector(".restart-button"),
     snake: new Snake(0, 0, 1, 0),
     tokens: [new Token(4, 0)],
     grid: makeGrid(10, 10),
@@ -177,6 +180,18 @@ function mapTokensToGrid() {
     }));
 }
 
+function updateEndgameMsg() {
+    app.endgameMsg.innerText = `Game Over - You've scored (${app.snake.body.length - 3}) points!`;
+}
+
+function displayEndgamePanel() {
+    app.endgameDiv.classList.remove("hidden");
+}
+
+function hideEndgamePanel() {
+    app.endgameDiv.classList.add("hidden");
+}
+ 
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
 
 mapTokensToGrid(app.tokens, app.grid);
