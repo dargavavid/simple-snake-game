@@ -147,12 +147,16 @@ function mainLoop(time = 0) {
     app.state.frameCounter += deltaTime;
     app.state.lastFrame = time;
     if (app.state.frameCounter > app.settings.fps) {
-        app.snake.move();
+        const cannotMove = app.snake.move();
         handleTokenSnakeCollision(app.tokens, app.snake, app.grid);
         app.grid = mapSnakeToGrid(app.snake, app.grid);
         clearCanvas(app.canvas, app.canvasCtx);
         renderGrid(app);
         app.state.frameCounter = 0;
+        if (cannotMove) {
+            updateEndgameMsg();
+            displayEndgamePanel();
+        }
     }
 }
 
@@ -171,6 +175,7 @@ function handleControls(e) {
 
 function setEventListeners() {
     document.addEventListener("keydown" ,handleControls, false);
+    app.restartButton.addEventListener("click", restartGame, false);
 }
 
 function mapTokensToGrid() {
@@ -193,10 +198,12 @@ function hideEndgamePanel() {
 }
 
 function restartGame() {
+    hideEndgamePanel();
     app.grid = makeGrid(10, 10);
-    app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
     app.tokens = [new Token(4, 0)];
     mapTokensToGrid(app.tokens, app.grid);
+    app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
+    app.snake.changeDirection(1, 0);
 }
 
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
