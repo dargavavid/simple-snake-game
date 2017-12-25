@@ -191,7 +191,14 @@ function displayEndgamePanel() {
 function hideEndgamePanel() {
     app.endgameDiv.classList.add("hidden");
 }
- 
+
+function restartGame() {
+    app.grid = makeGrid(10, 10);
+    app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
+    app.tokens = [new Token(4, 0)];
+    mapTokensToGrid(app.tokens, app.grid);
+}
+
 app.snake.body = [{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}];
 
 mapTokensToGrid(app.tokens, app.grid);
